@@ -30,3 +30,8 @@ ha esto le llamamos repository, lo que cambia es la manera de implementar estos 
 (en este caso, osea me refiero al DB que tu podrias aplicar este patron de diseño en tu vida comun para otro aspecto que 
 no fuese una base de datos).
 
+
+Implementaciones restantes/Futuras ampliables
+
+Productos
+Validacion de entrada de datos para la parte del dominio del usuario y la autenticacion

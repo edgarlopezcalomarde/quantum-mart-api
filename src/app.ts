@@ -3,14 +3,16 @@ import express from 'express';
 import cors from 'cors';
 import UserRouter from './user/infraestructure/user.route';
 import { AuthMiddleware } from './middleware/auth.middleware';
+import AuthRouter from './auth/infrastructure/auth.route';
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 
-//app.use(AuthMiddleware);
+app.use('/api', AuthRouter);
 
+app.use(AuthMiddleware);
 app.use('/api', UserRouter);
 
 app.use((req, res, next) => {

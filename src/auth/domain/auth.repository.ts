@@ -1,5 +1,5 @@
-import { AuthEntity } from './auth.entity';
+import { UserEntity } from '../../user/domain/user.entity';
 
 export interface AuthRepository {
-  login(username: string, password: string): Promise<AuthEntity | null>;
+  login(username: string): Promise<UserEntity | null>;
 }
