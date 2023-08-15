@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./build && tsc",
-    "start:dev": "npx nodemon",
+    "dev": "npx nodemon",
     "start": "npm run build && node build/index.js",
     "lint": "eslint . --ext .ts",
     "prettier-format": "run-script-os",
@@ -28,6 +28,7 @@
   "author": "Edgar Lopez Calomarde",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jest": "^28.1.8",
@@ -40,7 +41,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
     "jest": "^28.1.3",
-    "nodemon": "^2.0.19",
+    "nodemon": "^2.0.22",
     "onchange": "^7.1.0",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
@@ -50,11 +51,16 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "class-transformer": "^0.5.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jest-cucumber": "^3.0.1",
-    "reflect-metadata": "^0.1.13"
+    "mysql2": "^3.6.0",
+    "reflect-metadata": "^0.1.13",
+    "uuid": "^9.0.0"
   }
 }

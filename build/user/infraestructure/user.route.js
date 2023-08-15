@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var mock_repository_1 = require("./repository/mock.repository");
+var user_usecase_1 = require("../application/user.usecase");
+var user_controller_1 = require("./user.controller");
+var router = (0, express_1.Router)();
+var userRepo = new mock_repository_1.MockRepository();
+var useCase = new user_usecase_1.UserUseCase(userRepo);
+//useCase.listOfUsers().then((bby) => console.log(bby));
+var userController = new user_controller_1.UserController(useCase);
+router.get('/users', userController.get);
+exports.default = router;
