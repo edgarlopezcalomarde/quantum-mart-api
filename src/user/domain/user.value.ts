@@ -6,23 +6,23 @@ export class UserValue implements UserEntity {
   email: string;
   username: string;
   password: string;
-  rol: number;
+  rol_id: number;
 
   constructor({
     username,
     email,
     password,
-    rol,
+    rol_id,
   }: {
     username: string;
     email: string;
     password: string;
-    rol: number;
+    rol_id: number;
   }) {
     this.id = uuid();
     this.username = username;
     this.email = email;
     this.password = password;
-    this.rol = rol;
+    this.rol_id = rol_id;
   }
 }

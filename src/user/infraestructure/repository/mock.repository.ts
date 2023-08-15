@@ -7,29 +7,29 @@ let MockUsers: Array<UserEntity> = [
     email: 'paco@example.com',
     password: '1234567890',
     id: '1',
-    rol: 1,
+    rol_id: 1,
   },
   {
     username: 'Pedro',
     email: 'pedro@example.com',
     password: '1234567890',
     id: '2',
-    rol: 1,
+    rol_id: 1,
   },
   {
     username: 'Pepe',
     email: 'pepe@example.com',
     password: '1234567890',
     id: '3',
-    rol: 2,
+    rol_id: 2,
   },
 ];
 
 export class MockRepository implements UserRepository {
-  async deleteUser(id: string): Promise<UserEntity | null> {
+  async deleteUser(id: string): Promise<null> {
     const user = MockUsers.filter((u) => u.id === id)[0];
     MockUsers = MockUsers.filter((u) => u.id !== user.id);
-    return user;
+    return null;
   }
 
   async findUserById(id: string): Promise<UserEntity | null> {
@@ -38,7 +38,7 @@ export class MockRepository implements UserRepository {
         username: u.username,
         email: u.email,
         id: u.id,
-        rol: u.rol,
+        rol_id: u.rol_id,
       };
     });
 
@@ -57,7 +57,7 @@ export class MockRepository implements UserRepository {
     if (index != -1) {
       userFound.username = user.username;
       userFound.email = user.email;
-      userFound.rol = user.rol;
+      userFound.rol_id = user.rol_id;
       userFound.password = user.password;
     }
 
@@ -70,7 +70,7 @@ export class MockRepository implements UserRepository {
         username: u.username,
         email: u.email,
         id: u.id,
-        rol: u.rol,
+        rol_id: u.rol_id,
       };
     });
 

@@ -3,5 +3,5 @@ export interface UserEntity {
   username: string;
   email: string;
   password?: string;
-  rol: number;
+  rol_id: number;
 }

@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { MockRepository } from './repository/mock.repository';
 import { UserUseCase } from '../application/user.usecase';
 import { UserController } from './user.controller';
+import { MYSQLRepository } from './repository/mysql.repository';
 
 const router = Router();
 
-const userRepo = new MockRepository();
+const userRepo = new MYSQLRepository();
 const useCase = new UserUseCase(userRepo);
 const userController = new UserController(useCase);
 

@@ -21,7 +21,6 @@ Si quisiesemos transformar cada una de las capas de nuestro negocio en un micros
 en la capa de infraestructura es la conexion a la base de datos osea una carpeta db con el init a la base de datos
 y su propio archivo app para lanzar el servicio.
 
-
 Adicional :
 
 Repository Pattern

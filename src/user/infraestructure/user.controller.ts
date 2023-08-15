@@ -14,7 +14,6 @@ export class UserController {
 
   async newUser(req: Request, res: Response) {
     const insertedUser = await this.userUseCase.registerUser(req.body);
-
     res.json(insertedUser);
   }
 

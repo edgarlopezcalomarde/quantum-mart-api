@@ -9,12 +9,12 @@ export class UserUseCase {
     username,
     email,
     password,
-    rol,
+    rol_id,
   }: {
     username: string;
     email: string;
     password: string;
-    rol: number;
+    rol_id: number;
   }) {
     const passwordHash = await bcrypt.hash(password, 10);
 
@@ -22,7 +22,7 @@ export class UserUseCase {
       username,
       email,
       password: passwordHash,
-      rol,
+      rol_id,
     });
     const userCreated = await this.userRepository.registerUser(userValue);
     return userCreated;
@@ -34,12 +34,12 @@ export class UserUseCase {
       username,
       email,
       password,
-      rol,
+      rol_id,
     }: {
       username: string;
       email: string;
       password: string;
-      rol: number;
+      rol_id: number;
     },
   ) {
     const passwordHash = await bcrypt.hash(password, 10);
@@ -48,7 +48,7 @@ export class UserUseCase {
       username,
       email,
       password: passwordHash,
-      rol,
+      rol_id,
     });
     const userPatch = await this.userRepository.patchUser(id, userValue);
     return userPatch;

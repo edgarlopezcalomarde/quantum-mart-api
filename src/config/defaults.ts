@@ -7,3 +7,4 @@ export const DBPASS = process.env.DB_PASS;
 export const DBHOST = process.env.DB_HOST;
 export const DBNAME = process.env.DB_NAME;
 export const DBUSER = process.env.DB_USER;
+export const SECRET = process.env.SECRET;
