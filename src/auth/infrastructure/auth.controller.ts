@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthUseCase } from '../application/auth.usecase';
+import { HttpResponse } from '../../response/response.http';
 
 export class AuthController {
   constructor(private authUseCase: AuthUseCase) {}
@@ -8,10 +9,10 @@ export class AuthController {
     try {
       const { username, password } = req.body;
       const authOpetation = await this.authUseCase.login(username, password);
-      res.json(authOpetation);
+
+      HttpResponse.Ok(res, authOpetation);
     } catch (err) {
-      const { message } = err as { message: string };
-      res.status(401).json({ message });
+      HttpResponse.Unauthorized(res);
     }
   };
 }

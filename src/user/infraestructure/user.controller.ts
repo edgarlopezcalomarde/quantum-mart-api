@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { UserUseCase } from '../application/user.usecase';
+import { HttpResponse } from '../../response/response.http';
 
 export class UserController {
   constructor(private userUseCase: UserUseCase) {
@@ -9,29 +10,29 @@ export class UserController {
 
   async getAllUsers(req: Request, res: Response) {
     const users = await this.userUseCase.listOfUsers();
-    res.json(users);
+    HttpResponse.Ok(res, users);
   }
 
   async newUser(req: Request, res: Response) {
     const insertedUser = await this.userUseCase.registerUser(req.body);
-    res.json(insertedUser);
+    HttpResponse.Ok(res, insertedUser);
   }
 
   getUserById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const user = await this.userUseCase.findUserById(id);
-    res.json(user);
+    HttpResponse.Ok(res, user);
   };
 
   patchUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const userUpdated = await this.userUseCase.patchUser(id, req.body);
-    res.json(userUpdated);
+    HttpResponse.Ok(res, userUpdated);
   };
 
   deleteUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const userDeleted = await this.userUseCase.deleteUser(id);
-    res.json(userDeleted);
+    HttpResponse.Ok(res, userDeleted);
   };
 }
