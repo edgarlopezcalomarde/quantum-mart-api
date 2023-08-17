@@ -11,8 +11,8 @@ export class AuthController {
       const authOpetation = await this.authUseCase.login(username, password);
 
       HttpResponse.Ok(res, authOpetation);
-    } catch (err) {
-      HttpResponse.Unauthorized(res);
+    } catch (err: any) {
+      HttpResponse.Ko(res, err.message, err.httpCode);
     }
   };
 }

@@ -10,6 +10,14 @@ export interface Repository<T = unknown> {
   delete(id: Id, query?: Query): Promise<T>;
 }
 
+export enum HttpStatus {
+  OK = 200,
+  NOT_FOUND = 404,
+  FORBIDDEN = 403,
+  UNAUTHORIZED = 401,
+  INTERNAL_SERVER_ERROR = 500,
+}
+
 export interface User {
   id: string;
   name: string;

@@ -1,4 +1,5 @@
 import { SECRET } from '../../config/defaults';
+import { UnauthorizedError } from '../../exceptions/unauthorized.error';
 import { AuthRepository } from '../domain/auth.repository';
 
 import bcrypt from 'bcryptjs';
@@ -11,12 +12,12 @@ export class AuthUseCase {
     const userFound = await this.authRepository.login(username);
 
     if (!userFound) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedError('Invalid credentials');
     }
 
     const isMatch = await bcrypt.compare(password, userFound.password!);
     if (!isMatch) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedError('Invalid credentials');
     }
 
     const token = jwt.sign(
