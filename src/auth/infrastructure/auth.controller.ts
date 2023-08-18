@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { AuthUseCase } from '../application/auth.usecase';
 import { HttpResponse } from '../../response/response.http';
+import { BaseError } from '../../exceptions/base.error';
+import { HttpStatus } from '../../types';
 
 export class AuthController {
   constructor(private authUseCase: AuthUseCase) {}
@@ -11,8 +13,11 @@ export class AuthController {
       const authOpetation = await this.authUseCase.login(username, password);
 
       HttpResponse.Ok(res, authOpetation);
-    } catch (err: any) {
-      HttpResponse.Ko(res, err.message, err.httpCode);
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      HttpResponse.Ko(res, 'Internal Error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   };
 }

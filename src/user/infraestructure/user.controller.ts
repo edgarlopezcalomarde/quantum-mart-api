@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { UserUseCase } from '../application/user.usecase';
 import { HttpResponse } from '../../response/response.http';
+import { BaseError } from '../../exceptions/base.error';
+import { HttpStatus } from '../../types';
 
 export class UserController {
   constructor(private userUseCase: UserUseCase) {
@@ -9,30 +11,65 @@ export class UserController {
   }
 
   async getAllUsers(req: Request, res: Response) {
-    const users = await this.userUseCase.listOfUsers();
-    HttpResponse.Ok(res, users);
+    try {
+      const users = await this.userUseCase.listOfUsers();
+      HttpResponse.Ok(res, users);
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      HttpResponse.Ko(res, 'Internal Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async newUser(req: Request, res: Response) {
-    const insertedUser = await this.userUseCase.registerUser(req.body);
-    HttpResponse.Ok(res, insertedUser);
+    try {
+      const insertedUser = await this.userUseCase.registerUser(req.body);
+      HttpResponse.Ok(res, insertedUser);
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      HttpResponse.Ko(res, 'Internal Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   getUserById = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const user = await this.userUseCase.findUserById(id);
-    HttpResponse.Ok(res, user);
+    try {
+      const { id } = req.params;
+      const user = await this.userUseCase.findUserById(id);
+      HttpResponse.Ok(res, user);
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      HttpResponse.Ko(res, 'Internal Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   };
 
   patchUser = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const userUpdated = await this.userUseCase.patchUser(id, req.body);
-    HttpResponse.Ok(res, userUpdated);
+    try {
+      const { id } = req.params;
+      const userUpdated = await this.userUseCase.patchUser(id, req.body);
+      HttpResponse.Ok(res, userUpdated);
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      HttpResponse.Ko(res, 'Internal Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   };
 
   deleteUser = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const userDeleted = await this.userUseCase.deleteUser(id);
-    HttpResponse.Ok(res, userDeleted);
+    try {
+      const { id } = req.params;
+      const userDeleted = await this.userUseCase.deleteUser(id);
+      HttpResponse.Ok(res, userDeleted);
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      HttpResponse.Ko(res, 'Internal Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   };
 }

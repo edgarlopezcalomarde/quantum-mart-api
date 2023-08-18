@@ -18,12 +18,6 @@ export enum HttpStatus {
   INTERNAL_SERVER_ERROR = 500,
 }
 
-export interface User {
-  id: string;
-  name: string;
-  username: string;
-}
-
 export interface Product {
   id: string;
   name: string;
