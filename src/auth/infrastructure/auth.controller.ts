@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { AuthUseCase } from '../application/auth.usecase';
-import { HttpResponse } from '../../response/response.http';
+import { HttpResponse, HttpStatus } from '../../response/response.http';
 import { BaseError } from '../../exceptions/base.error';
-import { HttpStatus } from '../../types';
 
 export class AuthController {
   constructor(private authUseCase: AuthUseCase) {}

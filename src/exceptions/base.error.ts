@@ -1,4 +1,4 @@
-import { HttpStatus } from '../types';
+import { HttpStatus } from '../response/response.http';
 
 export class BaseError extends Error {
   public readonly message: string;

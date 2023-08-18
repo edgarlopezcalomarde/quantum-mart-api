@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { UserUseCase } from '../application/user.usecase';
-import { HttpResponse } from '../../response/response.http';
+import { HttpResponse, HttpStatus } from '../../response/response.http';
 import { BaseError } from '../../exceptions/base.error';
-import { HttpStatus } from '../../types';
 
 export class UserController {
   constructor(private userUseCase: UserUseCase) {
