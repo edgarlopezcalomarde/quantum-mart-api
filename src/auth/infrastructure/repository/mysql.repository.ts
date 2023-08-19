@@ -1,4 +1,5 @@
 import { pool } from '../../../config/db.mysql';
+import { InternalError } from '../../../exceptions/internal.error';
 import { UserEntity } from '../../../user/domain/user.entity';
 import { AuthRepository } from '../../domain/auth.repository';
 

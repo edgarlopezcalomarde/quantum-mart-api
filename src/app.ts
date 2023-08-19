@@ -6,6 +6,7 @@ import { AuthMiddleware } from './middleware/auth.middleware';
 import AuthRouter from './auth/infrastructure/auth.route';
 import ProductRouter from './product/infrastructure/product.route';
 import path from 'path';
+import { HttpResponse, HttpStatus } from './response/response.http';
 
 const app = express();
 
@@ -13,6 +14,18 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+  try {
+    next();
+  } catch (err) {
+    HttpResponse.Ko(
+      res,
+      'Internal Server Errror',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
+  }
+});
 
 app.use('/api', AuthRouter);
 
