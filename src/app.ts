@@ -5,15 +5,16 @@ import UserRouter from './user/infraestructure/user.route';
 import { AuthMiddleware } from './middleware/auth.middleware';
 import AuthRouter from './auth/infrastructure/auth.route';
 import ProductRouter from './product/infrastructure/product.route';
+import path from 'path';
 
 const app = express();
 
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 
-app.use('/api', AuthRouter);
+app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use(AuthMiddleware);
+app.use('/api', AuthRouter);
 
 app.use((req, res, next) => {
   if (req.path === '/api/product') {
