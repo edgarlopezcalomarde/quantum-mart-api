@@ -12,9 +12,17 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 
 app.use('/api', AuthRouter);
-app.use('/api', ProductRouter);
 
-app.use(AuthMiddleware);
+//app.use(AuthMiddleware);
+
+app.use((req, res, next) => {
+  if (req.path === '/api/product') {
+    return next();
+  }
+  AuthMiddleware(req, res, next);
+});
+
+app.use('/api', ProductRouter);
 app.use('/api', UserRouter);
 
 app.use((req, res, next) => {

@@ -19,7 +19,10 @@ export class ProductUseCase {
     img: Buffer;
   }) {
     const productValue = new ProductValue({ name, price, stock, visible, img });
-    const productInserted = this.productRepository.insertProduct(productValue);
+    const productInserted = await this.productRepository.insertProduct(
+      productValue,
+    );
+
     return productInserted;
   }
 
@@ -46,5 +49,31 @@ export class ProductUseCase {
     const base64Image = product!.img!.toString('base64');
     const dataUrl = `data:image/jpeg;base64,${base64Image}`;
     return { ...product, img: dataUrl };
+  }
+
+  public async patchProduct(
+    id: string,
+    {
+      name,
+      price,
+      stock,
+      visible,
+      img,
+    }: {
+      name: string;
+      price: number;
+      stock: number;
+      visible: boolean;
+      img: Buffer;
+    },
+  ) {
+    const productValue = new ProductValue({ name, price, stock, visible, img });
+    const pacthRepo = this.productRepository.patchProduct(id, productValue);
+    return pacthRepo;
+  }
+
+  public async deleteProduct(id: string) {
+    const deletedProduct = this.productRepository.deleteProduct(id);
+    return deletedProduct;
   }
 }

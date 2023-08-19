@@ -24,7 +24,6 @@ export class ProductController {
 
     try {
       const products = await this.productUseCase.getProduct(id);
-
       HttpResponse.Ok(res, products);
     } catch (err: unknown) {
       if (err instanceof BaseError) {
@@ -34,14 +33,47 @@ export class ProductController {
     }
   };
 
-  deleteProduct = async (req: Request, res: Response) => {};
-  patchProduct = async (req: Request, res: Response) => {};
+  deleteProduct = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const deletedProduct = this.productUseCase.deleteProduct(id);
+      HttpResponse.Ok(res, deletedProduct);
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+
+      HttpResponse.Ko(res, 'internal error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  };
+
+  patchProduct = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { name, price, stock, visible, img } = req.body;
+    try {
+      const productUpdated = await this.productUseCase.patchProduct(id, {
+        name,
+        price,
+        stock,
+        visible,
+        img,
+      });
+
+      HttpResponse.Ok(res, productUpdated);
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+
+      HttpResponse.Ko(res, 'internal error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  };
 
   insertProduct = async (req: Request, res: Response) => {
     const { name, price, stock, visible, img } = req.body;
 
     try {
-      const insertedProduct = this.productUseCase.insertProduct({
+      const insertedProduct = await this.productUseCase.insertProduct({
         name,
         price,
         stock,
