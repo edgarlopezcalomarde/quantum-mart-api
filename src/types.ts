@@ -9,3 +9,7 @@ export interface Repository<T = unknown> {
   patch(data: T, query?: Query): Promise<T>;
   delete(id: Id, query?: Query): Promise<T>;
 }
+
+export type Optional<T> = {
+  [P in keyof T]?: T[P];
+};

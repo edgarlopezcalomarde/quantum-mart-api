@@ -36,21 +36,22 @@ export class UserUseCase {
       password,
       rol_id,
     }: {
-      username: string;
-      email: string;
-      password: string;
-      rol_id: number;
+      username?: string;
+      email?: string;
+      password?: string;
+      rol_id?: number;
     },
   ) {
-    const passwordHash = await bcrypt.hash(password, 10);
+    if (password) {
+      password = await bcrypt.hash(password, 10);
+    }
 
-    const userValue = new UserValue({
+    const userPatch = await this.userRepository.patchUser(id, {
       username,
       email,
-      password: passwordHash,
+      password,
       rol_id,
     });
-    const userPatch = await this.userRepository.patchUser(id, userValue);
     return userPatch;
   }
 

@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { UserUseCase } from '../application/user.usecase';
 import { HttpResponse, HttpStatus } from '../../response/response.http';
 import { BaseError } from '../../exceptions/base.error';
+import { ValiError, parse } from 'valibot';
+import { newUserSchema, patchUserSchema } from './user.schema';
 
 export class UserController {
   constructor(private userUseCase: UserUseCase) {
@@ -23,13 +25,24 @@ export class UserController {
 
   async newUser(req: Request, res: Response) {
     try {
-      const insertedUser = await this.userUseCase.registerUser(req.body);
+      const body = parse(newUserSchema, req.body);
+
+      const insertedUser = await this.userUseCase.registerUser(body);
       HttpResponse.Ok(res, insertedUser);
     } catch (err: unknown) {
-      if (err instanceof BaseError) {
-        HttpResponse.Ko(res, err.message, err.httpCode);
+      if (err instanceof ValiError) {
+        return HttpResponse.Ko(res, err.message, HttpStatus.WRONG);
       }
-      HttpResponse.Ko(res, 'Internal Error', HttpStatus.INTERNAL_SERVER_ERROR);
+
+      if (err instanceof BaseError) {
+        return HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+
+      return HttpResponse.Ko(
+        res,
+        'Internal Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -48,10 +61,15 @@ export class UserController {
 
   patchUser = async (req: Request, res: Response) => {
     try {
+      const body = parse(patchUserSchema, req.body);
       const { id } = req.params;
-      const userUpdated = await this.userUseCase.patchUser(id, req.body);
+      const userUpdated = await this.userUseCase.patchUser(id, body);
       HttpResponse.Ok(res, userUpdated);
     } catch (err: unknown) {
+      if (err instanceof ValiError) {
+        return HttpResponse.Ko(res, err.message, HttpStatus.WRONG);
+      }
+
       if (err instanceof BaseError) {
         HttpResponse.Ko(res, err.message, err.httpCode);
       }
