@@ -15,18 +15,6 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res, next) => {
-  try {
-    next();
-  } catch (err) {
-    HttpResponse.Ko(
-      res,
-      'Internal Server Errror',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
-  }
-});
-
 app.use('/api', AuthRouter);
 
 app.use((req, res, next) => {
