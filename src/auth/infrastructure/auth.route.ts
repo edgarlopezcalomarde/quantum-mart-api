@@ -11,7 +11,7 @@ const authUseCase = new AuthUseCase(authRepository);
 const authController = new AuthController(authUseCase);
 
 router.post('/auth/login', loginLimiter, authController.login);
-router.post('/auth/refresh', authController.refresh);
+router.get('/auth/refresh', authController.refresh);
 router.post('/auth/logout', authController.logOut);
 
 export default router;

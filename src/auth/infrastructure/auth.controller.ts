@@ -17,6 +17,7 @@ export class AuthController {
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
         secure: true,
+        sameSite: 'none',
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
@@ -37,7 +38,8 @@ export class AuthController {
     try {
       const { jwt } = req.cookies;
       const accessToken = await this.authUseCase.refresh(jwt);
-      res.json(accessToken);
+
+      res.json({ accessToken });
     } catch (err: unknown) {
       if (err instanceof BaseError) {
         return HttpResponse.Ko(res, err.message, err.httpCode);

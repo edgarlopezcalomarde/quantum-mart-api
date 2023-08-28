@@ -52,29 +52,35 @@ export class AuthUseCase {
       throw new UnauthorizedError('Unauthorized');
     }
 
-    jwt.verify(refreshToken, SECRET as string, async (err, decoded) => {
-      if (err) {
-        throw new ForbiddenError('Forbidden');
-      }
+    const accessToken = jwt.verify(
+      refreshToken,
+      SECRET as string,
+      async (err, decoded) => {
+        if (err) {
+          throw new ForbiddenError('Forbidden');
+        }
 
-      const userId = (decoded as { userId: number }).userId;
-      const foundUser = this.authRepository.foundUser(userId);
+        const userId = (decoded as { userId: number }).userId;
+        const foundUser = await this.authRepository.foundUser(userId);
 
-      if (!foundUser) {
-        throw new UnauthorizedError('Unauthorized');
-      }
+        if (!foundUser) {
+          throw new UnauthorizedError('Unauthorized');
+        }
 
-      const accesToken = jwt.sign(
-        {
-          time: Date(),
-          userId,
-        },
-        SECRET as string,
-        { expiresIn: '60s' },
-      );
+        const token = jwt.sign(
+          {
+            time: Date(),
+            userId,
+          },
+          SECRET as string,
+          { expiresIn: '60s' },
+        );
 
-      return accesToken;
-    });
+        return token;
+      },
+    );
+
+    return accessToken;
   }
 
   public async logOut(refreshToken?: string) {
