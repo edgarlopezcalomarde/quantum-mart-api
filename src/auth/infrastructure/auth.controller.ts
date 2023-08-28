@@ -38,7 +38,24 @@ export class AuthController {
       const { jwt } = req.cookies;
       const accessToken = await this.authUseCase.refresh(jwt);
       res.json(accessToken);
-      
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        return HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      return HttpResponse.Ko(
+        res,
+        'Internal Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  };
+
+  logOut = async (req: Request, res: Response) => {
+    try {
+      const { jwt } = req.cookies;
+      await this.authUseCase.logOut(jwt);
+      res.clearCookie('jwt', { httpOnly: true, secure: true }); //Si falla añadir samesite: 'None'
+      return res.json({ message: 'Cookie cleared' });
     } catch (err: unknown) {
       if (err instanceof BaseError) {
         return HttpResponse.Ko(res, err.message, err.httpCode);

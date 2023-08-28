@@ -1,5 +1,6 @@
 import { SECRET } from '../../config/defaults';
 import { ForbiddenError } from '../../exceptions/forbidden.error';
+import { NotFoundError } from '../../exceptions/notfound.error';
 import { UnauthorizedError } from '../../exceptions/unauthorized.error';
 import { AuthRepository } from '../domain/auth.repository';
 
@@ -74,5 +75,13 @@ export class AuthUseCase {
 
       return accesToken;
     });
+  }
+
+  public async logOut(refreshToken?: string) {
+    if (!refreshToken) {
+      throw new NotFoundError('No content');
+    }
+
+    return refreshToken;
   }
 }
