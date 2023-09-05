@@ -9,14 +9,64 @@ export class AuthController {
   login = async (req: Request, res: Response) => {
     try {
       const { username, password } = req.body;
-      const authOpetation = await this.authUseCase.login(username, password);
+      const { userInfo, token, refreshToken } = await this.authUseCase.login(
+        username,
+        password,
+      );
 
-      HttpResponse.Ok(res, authOpetation);
+      res.cookie('jwt', refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      HttpResponse.Ok(res, { userInfo, token });
     } catch (err: unknown) {
       if (err instanceof BaseError) {
-        HttpResponse.Ko(res, err.message, err.httpCode);
+        return HttpResponse.Ko(res, err.message, err.httpCode);
       }
-      HttpResponse.Ko(res, 'Internal Error', HttpStatus.INTERNAL_SERVER_ERROR);
+      return HttpResponse.Ko(
+        res,
+        'Internal Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  };
+
+  refresh = async (req: Request, res: Response) => {
+    try {
+      const { jwt } = req.cookies;
+      const accessToken = await this.authUseCase.refresh(jwt);
+
+      res.json({ accessToken });
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        return HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      return HttpResponse.Ko(
+        res,
+        'Internal Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  };
+
+  logOut = async (req: Request, res: Response) => {
+    try {
+      const { jwt } = req.cookies;
+      await this.authUseCase.logOut(jwt);
+      res.clearCookie('jwt', { httpOnly: true, secure: true }); //Si falla añadir samesite: 'None'
+      return res.json({ message: 'Cookie cleared' });
+    } catch (err: unknown) {
+      if (err instanceof BaseError) {
+        return HttpResponse.Ko(res, err.message, err.httpCode);
+      }
+      return HttpResponse.Ko(
+        res,
+        'Internal Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   };
 }
