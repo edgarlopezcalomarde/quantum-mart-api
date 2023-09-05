@@ -47,6 +47,8 @@ comun para otro aspecto que no fuese una base de datos).
 - [Typescript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 - [Vite](https://vitejs.dev/guide/)
 - [Node](https://nodejs.org/es/docs)
+- [MYSQL](https://es.wikipedia.org/wiki/MySQL)
+- [XAMPP](https://es.wikipedia.org/wiki/MySQL)
 
 ## Librerias
 - [valibot](https://valibot.dev/)
@@ -71,4 +73,6 @@ Ejecute los siguientes comandos en el directorio raiz del proyecto:
     npm i
     npm run dev
 ```
+Ademas  necesitara  un sistema de  base de datos en mi caso he utilizado MYSQL bajo XAMPP,
+si lo desea usted puede implementar una base de datos con MONGODB, Redis, etc.
   
