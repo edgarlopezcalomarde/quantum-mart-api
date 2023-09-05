@@ -1,4 +1,5 @@
 # Quantum Mart API
+<img width="1920" alt="quantum-mart-api" src="https://github.com/edgarlopezcalomarde/quantum-mart-api/assets/24995646/8a820fd1-360d-46b1-b55c-47d740042e6a">
 
 ## Acerca de Quantum Mart API
 
